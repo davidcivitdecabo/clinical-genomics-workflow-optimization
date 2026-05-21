@@ -1,2 +1,8 @@
 # Clinical-Genomics-Workflow-Optimization
-Technical evaluation of bioinformatics tools and workflow strategies for improving scalability, reproducibility and variant interpretation efficiency in clinical genomics environments.
+This project presents a reproducible workflow and technical evaluation framework aimed at improving variant prioritization, reproducibility and scalability in clinical genomics analysis environments.
+
+The repository includes:
+- Bash-based variant prioritization workflows
+- Reproducibility-oriented pipeline design
+- Evaluation of bioinformatics tools and workflow strategies
+- Documentation and workflow architecture proposals
