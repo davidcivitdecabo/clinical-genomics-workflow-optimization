@@ -1,0 +1,128 @@
+# ==========================
+# Operating System
+# ==========================
+
+.DS_Store
+Thumbs.db
+
+# ==========================
+# Editors
+# ==========================
+
+.vscode/
+.idea/
+
+# ==========================
+# Python
+# ==========================
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+venv/
+env/
+.venv/
+
+# ==========================
+# Conda
+# ==========================
+
+conda-env/
+.env
+
+# ==========================
+# Logs
+# ==========================
+
+*.log
+logs/
+
+# ==========================
+# Temporary files
+# ==========================
+
+tmp/
+temp/
+*.tmp
+
+# ==========================
+# Genomics data
+# ==========================
+
+*.bam
+*.bam.bai
+*.sam
+*.cram
+*.crai
+
+*.vcf
+*.vcf.gz
+*.vcf.gz.tbi
+
+*.gvcf
+*.gvcf.gz
+
+*.bed
+*.bed.gz
+
+# ==========================
+# FASTQ
+# ==========================
+
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+
+# ==========================
+# Reference genomes
+# ==========================
+
+references/
+genomes/
+
+*.fa
+*.fasta
+*.fna
+
+*.fa.gz
+*.fasta.gz
+
+*.dict
+*.fai
+
+# ==========================
+# Exomiser
+# ==========================
+
+exomiser-results/
+exomiser-data/
+
+# ==========================
+# LIRICAL
+# ==========================
+
+lirical-results/
+
+# ==========================
+# Docker
+# ==========================
+
+*.tar
+
+# ==========================
+# Results generated locally
+# ==========================
+
+results/tmp/
+results/intermediate/
+
+# ==========================
+# Confidential data
+# ==========================
+
+clinical_data/
+patient_data/
+private_data/
