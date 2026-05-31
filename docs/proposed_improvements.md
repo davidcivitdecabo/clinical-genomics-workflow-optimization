@@ -1,4 +1,4 @@
-# Workflow-Level Improvements
+# Proposed Improvements
 
 The workflow components presented in this repository originated from the identification of practical limitations encountered during routine rare disease genomic analyses.
 
@@ -80,7 +80,7 @@ Systematic comparison of prioritization strategies may help identify configurati
 
 Clinical bioinformatics workflows often evolve incrementally over time, which can lead to reduced reproducibility, limited scalability, and difficulties in benchmarking alternative analytical strategies.
 
-### Proposed Improvement
+### Workflow Design Improvements
 
 The workflow architecture proposed in this repository aims to:
 
