@@ -10,6 +10,8 @@ Tool selection was guided by several practical and methodological criteria relev
 * Complementary methodological approaches that provide different sources of diagnostic evidence.
 * Compatibility with a modular workflow architecture, facilitating benchmarking and future tool replacement or extension.
 
+Supporting publications include both the original tool descriptions and comparative benchmarking studies that motivated tool selection. A complete list of references is available in [References](references.md).
+
 Rather than selecting a single tool for each analytical task, the workflow was designed to evaluate complementary approaches whose strengths and limitations may provide different diagnostic insights.
 
 ---
