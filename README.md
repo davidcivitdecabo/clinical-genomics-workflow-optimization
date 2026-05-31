@@ -8,7 +8,7 @@ Optimizing analytical strategies for rare disease diagnosis
 
 ---
 
-## Overview
+## Project Overview
 
 This repository presents a modular clinical genomics workflow focused on benchmarking and optimization of analytical strategies for rare disease diagnostics.
 
@@ -22,7 +22,7 @@ The project combines:
 
 The repository was inspired by workflow optimization proposals developed in a clinical genomics environment to improve reproducibility, interpretability, and diagnostic efficiency.
 
-## Clinical Motivation
+## Clinical Context and Motivation
 
 Clinical genomics laboratories face increasing pressure to deliver accurate and interpretable results within limited diagnostic timelines.
 
@@ -35,9 +35,9 @@ This repository reflects workflow optimization strategies proposed in a hospital
 * Variant prioritization
 * Workflow reproducibility and scalability
 
-📄 Full documentation: [Clinical_Motivation](docs/clinical_motivation.md)
+📄 Full documentation: [Clinical Context and Motivation](docs/clinical_motivation.md)
 
-## Workflow Architecture
+## Workflow Design and Components
 
 The workflow is organized into three analytical modules:
 
@@ -47,9 +47,9 @@ The workflow is organized into three analytical modules:
 
 Only the variant prioritization module was evaluated using real clinical cases.
 
-📄 Full documentation: [Workflow Architecture](docs/workflow_architecture.md)
+📄 Full documentation: [Workflow Design And Components](docs/workflow_design.md)
 
-## Tools and Methods
+## Analytical Tools and Methods
 
 This workflow integrates several widely used bioinformatics tools that address complementary aspects of clinical genomics analysis. Each tool was selected based on its relevance to rare disease diagnostics, its methodological strengths, and its ability to contribute meaningful evidence for variant interpretation.
 
@@ -64,7 +64,7 @@ The results obtained through variant prioritization were evaluated using real cl
 
 📄 Full documentation: [Tools and Methods](docs/tools_and_methods.md)
 
-## Repository Layout
+## Repository Structure
 
 The repository is organized to maintain modularity, reproducibility, and clear separation between workflow components, documentation, and benchmarking results.
 
@@ -90,11 +90,15 @@ clinical-genomics-workflow-optimization/
 │
 ├── docs/
 │   ├── clinical_context.md
-│   ├── variant_prioritization.md
+│   ├── workflow_design.md
+│   ├── tools_and_methods.md
 │   ├── variant_prioritization_study.md
-│   ├── sv_analysis.md
-│   ├── mitochondrial_analysis.md
-│   └── benchmarking_strategy.md
+│   ├── benchmarking_strategy.md
+│   ├── example_outputs.md
+│   ├── proposed_improvements.md
+│   ├── limitations.md
+│   ├── future_work.md
+│   └── author.md
 │
 ├── results/
 │   ├── comparative_tables/
@@ -152,7 +156,7 @@ All example files contain synthetic data only.
 
 📄 Full documentation: [Example Outputs](docs/example_outputs.md)
 
-## Benchmarking Highlights
+## Benchmarking Results
 
 The benchmarking study evaluated how different prioritization configurations and filtering strategies affected the ranking of previously validated pathogenic variants in rare disease cases.
 
@@ -190,7 +194,7 @@ Main limitations should be considered when interpreting this repository:
 
 Additional methodological details are available in: [Limitations](docs/limitations.md)
 
-## Planned Extensions
+## Future Work
 
 Potential future developments include:
 
@@ -199,9 +203,9 @@ Potential future developments include:
 * Workflow automation and containerization
 * Integration of additional interpretation and annotation layers
 
-Planned extensions and workflow improvements are described in [Planned_Extensions](docs/planned_extensions.md).
+Planned extensions and workflow improvements are described in [Future Work](docs/future_work.md).
 
-## About the Author
+## Author
 
 Developed by David Civit Decabo, a bioinformatician with experience in clinical genomics, rare disease diagnostics, and molecular laboratory environments.
 
@@ -220,3 +224,5 @@ Key Skills Demonstrated:
 * Phenotype-driven genomic interpretation
 * Reproducible bioinformatics workflow design
 * Bash scripting and workflow modularization
+
+📄 More information about the author in: [Author](docs/author.md)
