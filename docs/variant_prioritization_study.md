@@ -1,10 +1,10 @@
-# Variant Prioritization Benchmarking Study
+# Variant Prioritization Study
 
 ## Overview
 
-This study evaluates the performance of phenotype-driven variant prioritization tools under multiple filtering and configuration strategies within a rare disease diagnostic context.
+Variant prioritization represents one of the most critical stages of rare disease genomic diagnostics. Even after standard filtering procedures, clinical exome analyses typically generate hundreds of candidate variants requiring manual review and interpretation.
 
-The objective was to assess how different prioritization approaches influence the ranking of previously identified causal variants and to explore whether optimized filtering strategies could improve prioritization efficiency while reducing the burden of manual variant interpretation.
+This study was designed to evaluate how different phenotype-driven prioritization tools and filtering strategies affect the ranking of previously validated pathogenic variants. The objective was to identify configurations capable of maximizing recovery of causal variants while reducing the burden of manual variant review.
 
 The benchmarking focused on three widely used prioritization tools:
 
@@ -12,182 +12,160 @@ The benchmarking focused on three widely used prioritization tools:
 * LIRICAL
 * AMELIE
 
-Only previously diagnosed exome cases were included, enabling direct evaluation of how each prioritization strategy ranked known disease-causing variants.
+Only previously diagnosed clinical exome cases were included, allowing objective evaluation based on the known position of the causal variant.
 
 ---
 
-## Study Workflow
+## Study Cohort
 
-The benchmarking study followed the workflow below:
+A total of 221 diagnosed exome cases were randomly selected from a cohort of previously solved rare disease patients.
 
-1. Selection of previously diagnosed exome cases.
-2. Eligibility assessment and exclusion of unsuitable variants.
-3. Execution of Exomiser, LIRICAL, and AMELIE under multiple configurations.
-4. Evaluation of filtering strategies and ranking behavior.
-5. Comparison of prioritization performance across tools.
-6. Assessment of combined prioritization approaches.
-7. Analysis of ranking performance in reanalyzed versus initially diagnosed cases.
+Some patients carried more than one pathogenic variant contributing to diagnosis, resulting in a total of 240 diagnostic variants initially considered.
+
+Prior to benchmarking, variants were excluded according to predefined criteria:
+
+| Exclusion Criterion                      | Variants Excluded |
+| ---------------------------------------- | ----------------- |
+| Diagnosed using array-based technologies | 6                 |
+| Missing patient HPO annotations          | 1                 |
+| Total excluded                           | 7                 |
+
+The final benchmarking dataset consisted of:
+
+* 214 patients
+* 232 confirmed causal variants
+
+This dataset was used for all comparative analyses presented in this repository.
 
 ---
 
-## Cohort Selection
+## Benchmarking Objectives
 
-A total of 221 randomly selected diagnosed exome cases were included from a clinical genomics service.
+The study aimed to evaluate:
 
-Because some patients carried more than one disease-causing variant, the initial dataset contained 243 diagnostic variants.
+* Ranking performance of different prioritization tools.
+* Impact of filtering strategies on prioritization results.
+* Effect of variant quality thresholds.
+* Influence of allele-frequency filtering.
+* Utility of additional pathogenicity predictors.
+* Feasibility of combining prioritization tools to reduce review burden.
 
-### Exclusion Criteria
+An additional exploratory analysis compared exomes diagnosed during the initial analysis with exomes requiring subsequent reanalysis, under the hypothesis that reanalyzed cases may represent more challenging diagnostic scenarios.
 
-A total of 11 variants were excluded from the analysis:
+---
 
-| Exclusion Criterion                                            | Number Excluded |
-| -------------------------------------------------------------- | --------------- |
-| Missing patient HPO information                                | 1               |
-| Variants originally detected by array-based methods            | 6               |
-| Variants classified as VUS (Variant of Uncertain Significance) | 4               |
+## Evaluation Metrics
 
-### Final Benchmarking Dataset
+For each configuration, the ranking position assigned to the known causal variant was recorded.
 
-| Metric                      | Value |
-| --------------------------- | ----- |
-| Patients included           | 221   |
-| Initial diagnostic variants | 243   |
-| Excluded variants           | 11    |
-| Final variants evaluated    | 232   |
+Results were summarized using the following metrics:
 
-The resulting dataset consisted exclusively of previously validated pathogenic or likely pathogenic variants with available phenotype information.
+| Metric     | Description                                        |
+| ---------- | -------------------------------------------------- |
+| Top 1      | Causal variant ranked first                        |
+| Top 3      | Causal variant ranked within first three positions |
+| Top 5      | Causal variant ranked within first five positions  |
+| Top 10     | Causal variant ranked within first ten positions   |
+| Top 50     | Causal variant ranked within first fifty positions |
+| Ranked     | Variant present in tool output                     |
+| Not Ranked | Variant absent from output                         |
+
+These metrics were selected to reflect both diagnostic usefulness and practical review effort.
 
 ---
 
 ## Exomiser Evaluation
 
-Exomiser was evaluated under multiple filtering and scoring configurations to assess the impact of parameter selection on causal variant ranking.
+### Tested Parameters
 
-### Parameters Evaluated
+The following parameters were systematically evaluated:
 
-#### Variant Quality Threshold
+| Parameter                   | Tested Values       |
+| --------------------------- | ------------------- |
+| Variant Quality             | ≥100, ≥200          |
+| Allele Frequency            | ≤0.01, ≤0.02, ≤0.05 |
+| MVP Pathogenicity Predictor | Enabled / Disabled  |
 
-* QUAL ≥ 100
-* QUAL ≥ 200
+This resulted in twelve Exomiser configurations.
 
-#### Allele Frequency Threshold
+### Rationale
 
-* AF ≤ 1.0
-* AF ≤ 0.05
-* AF ≤ 0.02
-* AF ≤ 0.01
+Allele-frequency thresholds were evaluated to assess the balance between sensitivity and reduction of candidate variants.
 
-#### Pathogenicity Prediction
+Quality thresholds were tested to determine whether more stringent variant confidence requirements improved prioritization performance.
 
-* MVP enabled
-* MVP disabled
-
-The objective was to determine how filtering stringency and pathogenicity prediction influenced ranking performance and prioritization consistency.
+The MVP pathogenicity predictor was evaluated to determine whether incorporating additional pathogenicity evidence improved ranking accuracy.
 
 ---
 
 ## LIRICAL Evaluation
 
-LIRICAL was evaluated using multiple allele frequency filtering strategies.
+### Tested Parameters
 
-### Parameters Evaluated
+| Parameter        | Tested Values                  |
+| ---------------- | ------------------------------ |
+| Allele Frequency | No filter, ≤0.05, ≤0.02, ≤0.01 |
 
-#### Allele Frequency Threshold
+### Rationale
 
-* No allele frequency filtering
-* AF ≤ 0.05
-* AF ≤ 0.02
-* AF ≤ 0.01
-
-The analysis focused on assessing the influence of variant frequency filtering on likelihood ratio–based prioritization performance.
+Because LIRICAL relies primarily on phenotype likelihood ratios rather than pathogenicity prediction scores, the evaluation focused on the impact of allele-frequency filtering on prioritization performance.
 
 ---
 
 ## AMELIE Evaluation
 
-Due to clinical data privacy restrictions associated with the use of an external platform, AMELIE could not be evaluated using the complete patient variant and phenotype datasets employed for Exomiser and LIRICAL.
+Due to clinical privacy constraints associated with the use of external APIs, AMELIE could not be evaluated under identical conditions to Exomiser and LIRICAL.
 
-Three alternative evaluation strategies were explored:
+Three complementary approaches were therefore explored:
 
-### Strategy 1: Full Gene List
+### Complete Gene List
 
-AMELIE was executed using the complete list of genes containing variants identified in each patient.
+AMELIE was provided with the complete list of genes containing candidate variants for each patient.
 
-### Strategy 2: Frequency-Filtered Gene List
+### Filtered Gene List
 
-Gene lists were filtered prior to AMELIE execution using the following allele frequency thresholds:
+A second analysis used allele-frequency filtered candidate genes:
 
 * Homozygous variants: AF ≤ 0.005
 * Heterozygous variants: AF ≤ 0.001
 
-### Strategy 3: Causal Variant Assessment
+### Known Causal Variant Validation
 
-For a subset of ten patients, AMELIE was evaluated using only the known disease-causing variant to assess the system's ability to identify the corresponding gene-disease association.
+For a subset of ten patients, only the known causal variant was submitted.
 
-Because of these limitations, AMELIE results were interpreted separately from the primary Exomiser-LIRICAL benchmarking analysis.
-
----
-
-## Reanalysis Assessment
-
-Cases were divided into two groups:
-
-* Diagnosed during the initial exome analysis.
-* Diagnosed following exome reanalysis.
-
-This comparison was performed to investigate whether reanalyzed cases represented more diagnostically challenging scenarios and whether prioritization performance differed between the two groups.
-
-The rationale was that cases requiring reanalysis may reflect increased interpretation complexity, incomplete knowledge at the time of initial analysis, or variants located in genes that became clinically relevant after subsequent evidence emerged.
+This analysis aimed to assess whether AMELIE could recognize variants already known to be responsible for disease.
 
 ---
 
 ## Combined Prioritization Strategy
 
-A combined prioritization approach was evaluated to determine whether complementary evidence from multiple tools could reduce the number of variants requiring manual review.
+A practical filtering strategy was developed to evaluate whether combining prioritization tools could reduce manual review burden while maintaining diagnostic sensitivity.
 
-The strategy used the best-performing configuration identified for each prioritization tool:
+The strategy combined:
 
-* Top 10 ranked variants from Exomiser
-* Top 5 ranked variants from LIRICAL
+* Top 10 variants ranked by Exomiser
+* Top 5 variants ranked by LIRICAL
 
-This generated a candidate list containing a maximum of 15 variants per case.
+This produced a final candidate list of at most 15 variants per patient.
 
-The objective was to assess whether a reduced candidate set could preserve prioritization performance while facilitating downstream clinical interpretation and reducing reviewer workload.
+### Study Objectives
 
----
+The primary objective of this study was to evaluate prioritization strategies capable of improving the efficiency of rare disease diagnostics.
 
-## Evaluation Criteria
+More specifically, the study aimed to:
 
-The benchmarking focused on ranking behavior rather than diagnostic sensitivity or specificity.
-
-The primary evaluation criteria included:
-
-* Ranking position of known causal variants.
-* Effect of filtering strategies on ranking performance.
-* Consistency of prioritization across configurations.
-* Comparison between prioritization tools.
-* Performance of combined prioritization approaches.
-* Differences between initial and reanalyzed diagnostic cases.
+- Assess the ability of different prioritization configurations to recover previously validated pathogenic variants.
+- Evaluate the impact of filtering strategies on candidate ranking.
+- Identify prioritization settings that maximize recovery of causal variants.
+- Explore whether complementary prioritization tools could be combined to reduce the number of variants requiring manual review.
+- Propose a practical prioritization workflow suitable for routine clinical genomics environments.
 
 ---
 
-## Data Privacy and Ethical Considerations
+## Study Scope
 
-All benchmarking analyses were performed using previously diagnosed clinical cases.
+This benchmarking study focuses exclusively on variant prioritization performance.
 
-No patient-identifiable information is included in this repository.
+Structural variant analysis and mitochondrial DNA analysis described elsewhere in this repository were not included in the benchmarking cohort and remain methodological workflow proposals.
 
-Only aggregated benchmarking results, methodological descriptions, and synthetic example outputs are provided.
-
-The repository is intended to document workflow evaluation strategies while maintaining compliance with privacy and confidentiality requirements.
-
----
-
-## Relationship to Benchmarking Results
-
-This document describes the study design, cohort selection, evaluated configurations, and methodological framework.
-
-The benchmarking outcomes, comparative analyses, figures, and summary tables generated from this study are presented separately in:
-
-`docs/benchmarking_results.md`
-
+Results obtained from this study are presented in `benchmarking_results.md`.
