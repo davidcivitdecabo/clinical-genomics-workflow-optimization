@@ -43,7 +43,7 @@ This module evaluates three complementary prioritization approaches:
 - **LIRICAL** — applies a likelihood-ratio framework to rank candidate diagnoses and associated variants based on phenotype-genotype evidence.
 - **AMELIE** — uses automated literature mining to identify gene-disease associations relevant to the patient's phenotype.
 
-Multiple parameter configurations and filtering strategies were evaluated to assess their impact on candidate ranking and prioritization performance.
+Different filtering strategies and parameter configurations were explored to identify prioritization approaches capable of reducing the number of variants requiring manual review while maintaining recovery of known pathogenic variants.
 
 #### Integration and Filtering Strategy
 
