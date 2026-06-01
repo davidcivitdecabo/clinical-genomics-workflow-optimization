@@ -16,7 +16,7 @@ The project combines:
 
 * Structural variant workflow proposals using Manta and LUMPY
 * Mitochondrial DNA analysis integration using eKLIPse
-* Real-data benchmarking of phenotype-driven variant prioritization using Exomiser, LIRICAL, and AMELIE
+* Optimization of phenotype-driven variant prioritization strategies to improve diagnostic efficiency in rare disease genomics
 
 ![Workflow Overview](figures/workflow_overview.png)
 
@@ -158,15 +158,16 @@ All example files contain synthetic data only.
 
 ## Benchmarking Results
 
-The benchmarking study evaluated how different prioritization configurations and filtering strategies affected the ranking of previously validated pathogenic variants in rare disease cases.
+The variant prioritization benchmarking study evaluated 232 pathogenic variants from 214 previously diagnosed rare disease patients.
 
-Key evaluation aspects:
+Key findings include:
 
-- Ranking position of known causal variants
-- Impact of filtering strategies on prioritization performance
-- Comparison of Exomiser and LIRICAL ranking behavior
-- Exploratory evaluation of AMELIE-based gene prioritization
-- Reproducibility of prioritization results across configurations
+- Exomiser achieved the strongest overall prioritization performance, recovering up to 221 of 232 causal variants.
+- LIRICAL provided complementary phenotype-driven prioritization with highly stable performance across filtering configurations.
+- AMELIE showed limited ranking performance when using gene lists alone but produced consistently high confidence scores when the causal variant was directly evaluated.
+- A combined Exomiser-LIRICAL filtering strategy recovered 199 causal variants while reducing manual review to only 15 candidate variants per case.
+
+These results illustrate how prioritization strategies and filtering configurations can substantially affect diagnostic efficiency and review burden in rare disease genomics workflows.
 
 **Figure 1.**
 Comparison of prioritization performance across filtering configurations.
