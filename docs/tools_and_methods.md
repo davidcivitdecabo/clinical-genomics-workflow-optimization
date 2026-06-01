@@ -51,6 +51,10 @@ No benchmarking using real clinical datasets was performed for this component.
 
 ## Variant Prioritization
 
+The primary objective was not simply to compare prioritization tools, but to determine whether complementary prioritization strategies could be combined to generate a smaller and more manageable set of candidate variants for clinical review.
+
+Tool selection therefore focused on methods providing different sources of evidence that could potentially complement one another during diagnostic interpretation.
+
 The variant prioritization study focused on three complementary approaches for phenotype-driven candidate ranking.
 
 | Tool     | Methodology                                                                              | Main Strengths                                                                              | Main Limitations                                                              |
