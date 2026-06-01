@@ -12,4 +12,8 @@ During my work in a hospital genomics environment, I identified several opportun
 - Optimization of phenotype‑driven variant prioritization strategies  
 - Improved reproducibility, modularity, and scalability of diagnostic workflows
 
+One of the main challenges identified during routine clinical analysis was the large number of candidate variants requiring manual review after exome sequencing.
+
+Reducing the interpretation burden while maintaining recovery of clinically relevant variants became a major motivation for evaluating alternative prioritization and filtering strategies.
+
 To address these challenges, this repository documents workflow optimization proposals for structural variant and mitochondrial DNA analysis, together with a real-world benchmarking study of phenotype-driven variant prioritization strategies performed using previously diagnosed clinical cases.
