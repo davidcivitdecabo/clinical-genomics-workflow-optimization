@@ -64,7 +64,7 @@ The comparative evaluation of Exomiser, LIRICAL, and AMELIE was proposed to:
 
 * Evaluate complementary prioritization strategies based on phenotype-genotype relationships and literature evidence.
 * Assess ranking consistency across different tools and configurations.
-* Optimize prioritization and filtering parameters to maximize retention of potentially causal variants.
+* Optimize prioritization and filtering configurations to reduce manual interpretation burden while maintaining recovery of clinically relevant variants.
 * Reduce the risk of excluding clinically relevant candidates through overly restrictive filtering strategies.
 * Improve the interpretability and reproducibility of prioritization results.
 
