@@ -17,6 +17,7 @@ PROFILE=$1
 SAMPLE=$2
 SAMPLE_DIR=$3
 
+source config/system.conf
 source "$PROFILE"
 
 echo "[INFO] Running Exomiser for sample: $SAMPLE"
