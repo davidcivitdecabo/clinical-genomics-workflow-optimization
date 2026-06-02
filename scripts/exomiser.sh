@@ -13,34 +13,17 @@
 #
 ###############################################################################
 
-set -euo pipefail
+PROFILE=$1
+SAMPLE=$2
+SAMPLE_DIR=$3
 
-#################
-# Configuration #
-#################
+source "$PROFILE"
 
-SAMPLE="$1"
+echo "[INFO] Running Exomiser for sample: $SAMPLE"
 
-SAMPLE_DIR="/media/DataPC/DATA/Genomes/${SAMPLE}/"
-EXOMISER_DIR="/media/DataPC/Desktop/software/Exomiser/exomiser-cli-14.1.0"
-
-##############
-# Validation #
-##############
-
-if [[ ! -d "$SAMPLE_DIR" ]]; then
-    echo "[ERROR] Sample directory not found: $SAMPLE_DIR"
-    exit 1
-fi
-
-if [[ ! -f "$SAMPLE_DIR/HPO_terms.txt" ]]; then
-    echo "[ERROR] HPO_terms.txt not found"
-    exit 1
-fi
-
-#####################
-# Generate HPO list #
-#####################
+##################
+# Build HPO list #
+##################
 
 echo "[INFO] Preparing HPO terms for sample ${SAMPLE}"
 
@@ -61,9 +44,9 @@ echo "[INFO] Generating Exomiser YAML configuration"
 
 cd "$EXOMISER_DIR"
 
-sed "s/X_Sample/${SAMPLE}/g" ./test/analysis-exome.yml \
-    | sed "s/hpoIds: \[\]/hpoIds: \[${HPO_LIST}\]/g" \
-    > "./test/analysis-${SAMPLE}-exome.yml"
+sed "s/X_Sample/$SAMPLE/g" "$EXOMISER_TEMPLATE" \
+    | sed "s/hpoIds: \[\]/hpoIds: \[$HPO_LIST\]/g" \
+    > "test/analysis-${SAMPLE}.yml"
 
 ################
 # Run Exomiser #
@@ -71,8 +54,10 @@ sed "s/X_Sample/${SAMPLE}/g" ./test/analysis-exome.yml \
 
 echo "[INFO] Running Exomiser"
 
-java -jar exomiser-cli-14.1.0.jar \
-    --analysis "test/analysis-${SAMPLE}-exome.yml" \
-    --exomiser.data-directory="$EXOMISER_DIR"
+java -jar "$EXOMISER_JAR" \
+    --analysis "test/analysis-${SAMPLE}.yml" \
+    --exomiser.data-directory="$EXOMISER_DATA"
 
-echo "[INFO] Exomiser completed successfully"
+echo "[INFO] Exomiser finished for $SAMPLE"
+
+
