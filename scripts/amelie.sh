@@ -61,7 +61,7 @@ export OUTPUT_FILE
 export AMELIE_MODE
 export GENE_FILE="$GENE_FILE_PATH"
 
-python3 "$SCRIPT_DIR/amelie_api.py"
+python3 "$SCRIPT_DIR/amelie_gene_api.py"
 
 echo "[INFO] Finished successfully"
 echo "[INFO] Output: ${OUTPUT_FILE}"
