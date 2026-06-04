@@ -2,38 +2,25 @@
 
 set -euo pipefail
 
-######################
-# Load configuration #
-######################
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-SYSTEM_CONFIG=${1:-config/system.conf}
-PROFILE_CONFIG=${2}
+PROFILE_CONFIG=${1}
 
-if [[ ! -f "$SYSTEM_CONFIG" ]]; then
-    echo "[ERROR] System config not found: $SYSTEM_CONFIG"
-    exit 1
-fi
-
-if [[ ! -f "$PROFILE_CONFIG" ]]; then
-    echo "[ERROR] Profile config not found: $PROFILE_CONFIG"
-    exit 1
-fi
-
-source "$SYSTEM_CONFIG"
+source "${SCRIPT_DIR}/../config/system.conf"
 source "$PROFILE_CONFIG"
 
 ################
 # Input sample #
 ################
 
-SAMPLE=$3
+SAMPLE=$2
 
 if [[ -z "${SAMPLE:-}" ]]; then
     echo "[ERROR] Sample name required"
     exit 1
 fi
 
-SAMPLE_DIR="${DATA_DIR}/${SAMPLE}"
+SAMPLE_DIR="${SAMPLES_DIR}/${SAMPLE}"
 
 echo "----------------------------------------"
 echo "Running LIRICAL"
@@ -93,14 +80,14 @@ echo "[INFO] Running LIRICAL..."
 
 cd "$LIRICAL_DIR"
 
-java -jar "$LIRICAL_JAR" prioritize \
-    --exomiser-hg38 "$LIRICAL_DATABASE" \
+${JAVA_BIN} -jar "${LIRICAL_DIR}/${LIRICAL_JAR}" prioritize \
+    --exomiser-hg38 "$EXOMISER_DB" \
     -p "$HPO_TERMS" \
     --vcf "$SAMPLE_DIR/${SAMPLE}_filtered_PASS.vcf" \
     --prefix "lirical_${SAMPLE}_${PROFILE_NAME}" \
     --validation-policy=LENIENT \
     --pathogenicity-threshold=1.0 \
-    -o "$LIRICAL_RESULTS_DIR" \
+    -o "$RESULTS_DIR" \
     -f tsv
 
 echo "[INFO] Finished"
