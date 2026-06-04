@@ -15,9 +15,10 @@
 
 PROFILE=$1
 SAMPLE=$2
-SAMPLE_DIR=$3
 
-source config/system.conf
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+source "${SCRIPT_DIR}/../config/system.conf"
 source "$PROFILE"
 
 echo "[INFO] Running Exomiser for sample: $SAMPLE"
@@ -29,7 +30,7 @@ echo "[INFO] Running Exomiser for sample: $SAMPLE"
 echo "[INFO] Preparing HPO terms for sample ${SAMPLE}"
 
 HPO_LIST=$(
-    cat "$SAMPLE_DIR/HPO_terms.txt" \
+    cat "$SAMPLES_DIR/HPO_terms.txt" \
     | tr '\n' ',' \
     | sed "s/,/\', \'/g" \
     | sed "s/^/\'/g" \
@@ -55,9 +56,9 @@ sed "s/X_Sample/$SAMPLE/g" "$EXOMISER_TEMPLATE" \
 
 echo "[INFO] Running Exomiser"
 
-java -jar "$EXOMISER_JAR" \
+${JAVA_BIN} -jar "${EXOMISER_DIR}/${EXOMISER_JAR}" \
     --analysis "test/analysis-${SAMPLE}.yml" \
-    --exomiser.data-directory="$EXOMISER_DATA"
+    --exomiser.data-directory="$EXOMISER_DATA_DIR"
 
 echo "[INFO] Exomiser finished for $SAMPLE"
 
