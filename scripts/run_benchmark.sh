@@ -80,7 +80,13 @@ do
 
         echo ""
         echo "[EXOMISER] $PROFILE"
+        PROFILE_FILE_EX="${EXOMISER_PROFILE_DIR}/${PROFILE}.conf"
 
+        [[ -f "$PROFILE_FILE_EX" ]] || {
+            echo "[ERROR] Missing profile: $PROFILE_FILE_EX"
+            exit 1
+        }
+        
         bash "$SCRIPT_DIR/exomiser.sh" \
             "${EXOMISER_PROFILE_DIR}/${PROFILE}.conf" \
             "$SAMPLE"
@@ -96,7 +102,13 @@ do
 
         echo ""
         echo "[LIRICAL] $PROFILE"
+        PROFILE_FILE_LIR="${LIRICAL_PROFILE_DIR}/${PROFILE}.conf"
 
+        [[ -f "$PROFILE_FILE_LIR" ]] || {
+            echo "[ERROR] Missing profile: $PROFILE_FILE_LIR"
+            exit 1
+        }
+        
         bash "$SCRIPT_DIR/lirical.sh" \
             "${LIRICAL_PROFILE_DIR}/${PROFILE}.conf" \
             "$SAMPLE"
