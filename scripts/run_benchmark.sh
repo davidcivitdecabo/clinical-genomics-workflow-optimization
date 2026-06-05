@@ -1,3 +1,4 @@
+# scripts/run_benchmark.sh
 #!/usr/bin/env bash
 
 set -euo pipefail
@@ -17,21 +18,21 @@ mkdir -p "$RESULTS_DIR"
 #########################################################
 
 EXOMISER_PROFILES=(
-quality200_af001
-quality200_af002
-quality200_af005
+q200_af001
+q200_af002
+q200_af005
 
-quality200_mvp_af001
-quality200_mvp_af002
-quality200_mvp_af005
+q200_mvp_af001
+q200_mvp_af002
+q200_mvp_af005
 
-quality100_af001
-quality100_af002
-quality100_af005
+q100_af001
+q100_af002
+q100_af005
 
-quality100_mvp_af001
-quality100_mvp_af002
-quality100_mvp_af005
+q100_mvp_af001
+q100_mvp_af002
+q100_mvp_af005
 )
 
 #########################################################
@@ -42,7 +43,7 @@ LIRICAL_PROFILES=(
 af001
 af002
 af005
-no_af
+no_filter
 )
 
 #########################################################
@@ -81,8 +82,8 @@ do
         echo "[EXOMISER] $PROFILE"
 
         bash "$SCRIPT_DIR/exomiser.sh" \
-            "$SAMPLE" \
-            "$PROFILE"
+            "${EXOMISER_PROFILE_DIR}/${PROFILE}.conf" \
+            "$SAMPLE"
 
     done
 
@@ -97,8 +98,8 @@ do
         echo "[LIRICAL] $PROFILE"
 
         bash "$SCRIPT_DIR/lirical.sh" \
-            "$SAMPLE" \
-            "$PROFILE"
+            "${LIRICAL_PROFILE_DIR}/${PROFILE}.conf" \
+            "$SAMPLE"
 
     done
 
@@ -148,7 +149,7 @@ do
                 "$SAMPLE" \
                 "$EXOMISER_PROFILE" \
                 "$LIRICAL_PROFILE"
-
+                
         done
 
     done
