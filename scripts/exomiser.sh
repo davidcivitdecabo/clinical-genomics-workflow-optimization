@@ -13,14 +13,14 @@
 #
 ###############################################################################
 
-PROFILE=$1
-SAMPLE=$2
-
 if [[ $# -ne 2 ]]; then
     echo "Usage:"
     echo "  exomiser.sh <profile.conf> <sample>"
     exit 1
 fi
+
+PROFILE=$1
+SAMPLE=$2
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
