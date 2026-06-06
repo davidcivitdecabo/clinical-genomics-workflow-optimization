@@ -27,9 +27,9 @@ Usage:
 
 run_analysis.sh \
     --samples sample_list.txt \
-    --exomiser exomiser_q200_af005.conf \
-    --lirical lirical_af005.conf \
-    [--amelie gene_list.conf]
+    --exomiser q200_af005 \
+    --lirical af005 \
+    [--amelie gene_list]
 
 Required:
 
@@ -47,14 +47,14 @@ Examples:
 
 run_analysis.sh \
     --samples samples.txt \
-    --exomiser exomiser_q200_af005.conf \
-    --lirical lirical_af005.conf
+    --exomiser q200_af005 \
+    --lirical af005
 
 run_analysis.sh \
     --samples samples.txt \
-    --exomiser exomiser_q100_mvp_af005.conf \
-    --lirical lirical_af005.conf \
-    --amelie gene_list.conf
+    --exomiser q100_mvp_af005 \
+    --lirical af005 \
+    --amelie gene_list
 
 EOF
 
@@ -75,25 +75,37 @@ do
     case "$1" in
 
         --samples)
-
+            [[ $# -ge 2 ]] || {
+                echo "[ERROR] Missing value for --samples"
+                exit 1
+            }
             SAMPLE_LIST="$2"
             shift 2
             ;;
 
         --exomiser)
-
+            [[ $# -ge 2 ]] || {
+                echo "[ERROR] Missing value for --exomiser"
+                exit 1
+            }
             EXOMISER_PROFILE="$2"
             shift 2
             ;;
 
         --lirical)
-
+            [[ $# -ge 2 ]] || {
+                echo "[ERROR] Missing value for --lirical"
+                exit 1
+            }
             LIRICAL_PROFILE="$2"
             shift 2
             ;;
 
         --amelie)
-
+            [[ $# -ge 2 ]] || {
+                echo "[ERROR] Missing value for --amelie"
+                exit 1
+            }
             AMELIE_PROFILE="$2"
             shift 2
             ;;
@@ -110,32 +122,45 @@ done
 # VALIDATION
 ###############################################################################
 
-[[ ! -f "$SAMPLE_LIST" ]] && \
-    { echo "Sample list not found"; exit 1; }
+[[ -n "${SAMPLE_LIST:-}" ]] || {
+    echo "[ERROR] Missing --samples"
+    exit 1
+}
 
-[[ ! -f "${REPO_DIR}/config/exomiser_profiles/${EXOMISER_PROFILE}" ]] && \
-    { echo "Exomiser profile not found"; exit 1; }
+[[ -f "$SAMPLE_LIST" ]] || {
+    echo "[ERROR] Sample list not found: $SAMPLE_LIST"
+    exit 1
+}
 
-[[ ! -f "${REPO_DIR}/config/lirical_profiles/${LIRICAL_PROFILE}" ]] && \
-    { echo "LIRICAL profile not found"; exit 1; }
+[[ -n "${EXOMISER_PROFILE:-}" ]] || {
+    echo "[ERROR] Missing --exomiser"
+    exit 1
+}
+
+[[ -f "${EXOMISER_PROFILE_DIR}/${EXOMISER_PROFILE}.conf" ]] || {
+    echo "[ERROR] Exomiser profile not found: $EXOMISER_PROFILE"
+    exit 1
+}
+
+[[ -n "${LIRICAL_PROFILE:-}" ]] || {
+    echo "[ERROR] Missing --lirical"
+    exit 1
+}
+
+[[ -f "${LIRICAL_PROFILE_DIR}/${LIRICAL_PROFILE}.conf" ]] || {
+    echo "[ERROR] LIRICAL profile not found: $LIRICAL_PROFILE"
+    exit 1
+}
 
 if [[ -n "$AMELIE_PROFILE" ]]
 then
 
-    [[ ! -f "${REPO_DIR}/config/amelie_profiles/${AMELIE_PROFILE}" ]] && \
-        { echo "AMELIE profile not found"; exit 1; }
+    [[ -f "${AMELIE_PROFILE_DIR}/${AMELIE_PROFILE}.conf" ]] || {
+        echo "[ERROR] AMELIE profile not found: $AMELIE_PROFILE"
+        exit 1
+}
 
 fi
-
-###############################################################################
-# OUTPUT DIRECTORY
-###############################################################################
-
-RUN_NAME=$(date +"%Y%m%d_%H%M%S")
-
-RUN_DIR="${ANALYSIS_DIR}/${RUN_NAME}"
-
-mkdir -p "${RUN_DIR}"
 
 ###############################################################################
 # CONFIGURATION SUMMARY
@@ -172,9 +197,12 @@ fi
 # SAMPLE LOOP
 ###############################################################################
 
-while read -r SAMPLE
+while IFS= read -r SAMPLE
 do
-
+    SAMPLE=$(echo "$SAMPLE" | xargs)
+    [[ -z "$SAMPLE" ]] && continue
+    [[ "$SAMPLE" =~ ^# ]] && continue
+    
     echo
     echo "---------------------------------------"
     echo "Processing ${SAMPLE}"
@@ -184,7 +212,7 @@ do
 
     [[ ! -d "$SAMPLE_DIR" ]] && \
     {
-        echo "Sample directory not found"
+        echo "[ERROR] Sample directory not found: $SAMPLE_DIR"
         continue
     }
 
@@ -192,17 +220,17 @@ do
     # EXOMISER
     ###############################################################
 
-    bash "${SCRIPT_DIR}/exomiser.sh" \
-        "$SAMPLE" \
-        "${REPO_DIR}/config/exomiser_profiles/${EXOMISER_PROFILE}"
+    bash "$SCRIPT_DIR/exomiser.sh" \
+        "${EXOMISER_PROFILE_DIR}/${EXOMISER_PROFILE}.conf" \
+        "$SAMPLE"
 
     ###############################################################
     # LIRICAL
     ###############################################################
 
-    bash "${SCRIPT_DIR}/lirical.sh" \
-        "$SAMPLE" \
-        "${REPO_DIR}/config/lirical_profiles/${LIRICAL_PROFILE}"
+    bash "$SCRIPT_DIR/lirical.sh" \
+        "${LIRICAL_PROFILE_DIR}/${LIRICAL_PROFILE}.conf" \
+        "$SAMPLE"
 
     ###############################################################
     # AMELIE
@@ -211,9 +239,9 @@ do
     if [[ -n "$AMELIE_PROFILE" ]]
     then
 
-        bash "${SCRIPT_DIR}/amelie.sh" \
-            "$SAMPLE" \
-            "${REPO_DIR}/config/amelie_profiles/${AMELIE_PROFILE}"
+        bash "$SCRIPT_DIR/amelie.sh" \
+        "$SAMPLE" \
+        "$AMELIE_PROFILE"
 
     fi
 
@@ -222,7 +250,9 @@ do
     ###############################################################
 
     bash "${SCRIPT_DIR}/integration.sh" \
-        "$SAMPLE"
+        "$SAMPLE" \
+        "$EXOMISER_PROFILE" \
+        "$LIRICAL_PROFILE"
 
 done < "$SAMPLE_LIST"
 
@@ -232,10 +262,6 @@ done < "$SAMPLE_LIST"
 
 echo
 echo "======================================="
-echo "Analysis completed"
+echo "Processed samples from: $SAMPLE_LIST"
 echo "======================================="
-echo
-
-echo "Results:"
-echo "${RUN_DIR}"
 echo
