@@ -30,7 +30,7 @@ fi
 
 source "$PROFILE_FILE"
 
-if [[ "$PROFILE" == "vcf" ]]; then
+if [[ "$PROFILE_NAME" == "vcf" ]]; then
     echo "[ERROR] VCF analysis must be executed using amelie_vcf.sh"
     exit 1
 fi
@@ -46,15 +46,15 @@ fi
 HPO_FILE="${SAMPLE_DIR}/HPO_terms.txt"
 GENE_LIST_FILE="${SAMPLE_DIR}/${GENE_FILE}"
 
-OUTPUT_DIR="${RESULTS_DIR}/amelie/${PROFILE}"
+OUTPUT_DIR="${RESULTS_DIR}/amelie/${PROFILE_NAME}"
 
 mkdir -p "$OUTPUT_DIR"
 
-OUTPUT_FILE="${OUTPUT_DIR}/amelie_${SAMPLE}_${PROFILE}.json"
+OUTPUT_FILE="${OUTPUT_DIR}/amelie_${SAMPLE}_${PROFILE_NAME}.json"
 
 echo "[INFO] Starting AMELIE analysis"
 echo "[INFO] Sample: ${SAMPLE}"
-echo "[INFO] Profile: ${PROFILE}"
+echo "[INFO] Profile: ${PROFILE_NAME}"
 
 if [ ! -f "$HPO_FILE" ]; then
     echo "[ERROR] HPO file not found:"
