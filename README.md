@@ -76,54 +76,97 @@ clinical-genomics-workflow-optimization/
 ├── README.md
 │
 ├── config/
-│   ├── config.sh
-│   └── paths.example.conf
-│
-├── scripts/
-│   ├── manta.sh
-│   ├── lumpy.sh
-│   ├── exomiser.sh
-│   ├── lirical.sh
-│   ├── amelie.sh
-│   ├── filtering.sh
-│   └── integration.sh
+│   ├── amelie_profiles/
+│      ├── gene_list.conf
+│      ├── gene_list_filtered.conf
+│      └── vcf.conf
+│   ├── exomiser_profiles/
+│      ├── q100_af001.conf
+│      ├── q100_af002.conf
+│      ├── q100_af005.conf
+│      ├── q100_mvp_af001.conf
+│      ├── q100_mvp_af002.conf
+│      ├── q100_mvp_af005.conf
+│      ├── q200_af001.conf
+│      ├── q200_af002.conf
+│      ├── q200_af005.conf
+│      ├── q200_mvp_af001.conf
+│      ├── q200_mvp_af002.conf
+│      └── q200_mvp_af005.conf
+│   ├── lirical_profiles/
+│      ├── af001.conf
+│      ├── af002.conf
+│      ├── af005.conf
+│      └── no_filter.conf
+│   ├── system.conf
+│   └── system.example.conf
 │
 ├── docs/
-│   ├── clinical_context.md
-│   ├── workflow_design.md
+│   ├── author.md
+│   ├── benchmarking_results.md
+│   ├── clinical_motivation.md
+│   ├── example_outputs.md
+│   ├── future_work.md
+│   ├── limitations.md
+│   ├── project_summary.md
+│   ├── proposed_improvements.md
+│   ├── references.md
 │   ├── tools_and_methods.md
 │   ├── variant_prioritization_study.md
-│   ├── benchmarking_strategy.md
-│   ├── example_outputs.md
-│   ├── proposed_improvements.md
-│   ├── limitations.md
-│   ├── future_work.md
-│   └── author.md
-│
-├── results/
-│   ├── comparative_tables/
-│   └── prioritization_results/
+│   └── workflow_design.md
 │
 ├── examples/
-│   ├── exomiser_output_example.tsv
-│   ├── lirical_output_example.tsv
-│   └── amelie_output_example.tsv
+│   ├── SAMPLE_001/
+│      ├── HPO_terms.txt
+│      ├── SAMPLE_001.vcf
+│      ├── SAMPLE_001_filtered_sorted_hg38.vcf
+│      ├── SAMPLE_001_gnomad_values_hg38.txt
+│      ├── gene_list.txt
+│      └── gene_list_filtered.txt
+│   ├── SAMPLE_002/
+│      ├── HPO_terms.txt
+│      ├── SAMPLE_002.vcf
+│      ├── SAMPLE_002_filtered_sorted_hg38.vcf
+│      ├── SAMPLE_002_gnomad_values_hg38.txt
+│      ├── gene_list.txt
+│      └── gene_list_filtered.txt
 │
-└── figures/
-    ├── workflow_overview.png
-    ├── prioritization_comparison.png
-    └── ranking_heatmap.png
+├── figures/
+│   ├── workflow_overview.png
+│   ├── prioritization_comparison.png
+│   └── ranking_heatmap.png
+│
+├── results/
+│   ├── amelie/
+│   ├── analysis/
+│   ├── benchmark/
+│   ├── exomiser/
+│   ├── integration/
+│   └── lirical/
+│
+└── scripts/
+    ├── amelie.sh
+    ├── amelie_gene_api.py
+    ├── amelie_vcf.sh
+    ├── amelie_vcf_api.py
+    ├── exomiser.sh
+    ├── manta.sh
+    ├── lumpy.sh
+    ├── integration.sh
+    ├── lirical.sh
+    ├── run_analysis.sh
+    └── run_benchmark.sh
 ```
 ### Directory Description
 
 | Directory | Description |
 |----------|-------------|
 | `config/` | Configuration files and example paths required to run the workflow. |
-| `scripts/` | Modular scripts implementing SV detection, mtDNA analysis, variant prioritization, and custom integration/filtering logic. |
 | `docs/` | Technical documentation describing workflow design, clinical context, benchmarking methodology, and analytical modules. |
-| `results/` | Output directories containing benchmarking results and comparative analyses (no real patient data). |
 | `examples/` | Example anonymized outputs illustrating expected tool formats. |
 | `figures/` | Workflow diagrams and visual summaries of analytical strategies. |
+| `results/` | Output directories containing benchmarking results and comparative analyses (no real patient data). |
+| `scripts/` | Modular scripts implementing SV detection, mtDNA analysis, variant prioritization, and custom integration/filtering logic. |
 
 The repository structure was designed to facilitate workflow readability, modular benchmarking, and future extensibility of the analytical framework.
 
@@ -131,23 +174,81 @@ The repository structure was designed to facilitate workflow readability, modula
 
 This repository was designed as a modular benchmarking and workflow evaluation framework.
 
-Main requirements:
+- Main requirements:
 
-* Bash
-* Java (Exomiser, LIRICAL)
-* Python 3
-* Linux environment recommended
+    * Bash
+    * Java (Exomiser, LIRICAL)
+    * [Exomiser](https://github.com/exomiser/Exomiser)
+    * [LIRICAL](https://github.com/TheJacksonLaboratory/LIRICAL)
+    * Python 3
+    * Linux environment recommended
+
+- Input data requirements in the folder for each sample to be analyzed:
+
+| File | Description |
+|----------|-------------|
+`HPO_terms.txt` | Patient HPO terms, 1 term per line | 
+`(sample name).vcf` | Variants to analyze by Amelie in vcf format (hg19) |
+`(sample name)_filtered_sorted_hg38.vcf` | Variants to analyze by Exomiser and LIRICAL in vcf format |
+`(sample name)_gnomad_values_hg38.txt` | Gnomad values ​​of each variant of the `(sample name)_filtered_sorted_hg38.vcf` file |
+`gene_list.txt` | List of genes in which a variant of the sample has been found |
+`gene_list_filtered.txt` | `gene_list.txt` filtered by AF (>=0.1 Homozygous and >=0.05 Heterozygous variants) |
 
 Clone the repository:
 
 ```bash
 git clone https://github.com/davidcivitdecabo/clinical-genomics-workflow-optimization.git
 cd clinical-genomics-workflow-optimization
+# Edit config/system.example.conf the file with the user paths
+cp config/system.example.conf config/system.conf
 ```
 
-Configuration examples are available in:
-`config/paths.example.conf`
+Configuration profiles are available in:
+`config/system.example.conf`
 
+The workflow uses configuration profiles to define analysis parameters.
+
+| Prioritizer | Path | Example | Parameters |
+|----------|-------------|-------------|-------------|
+| Exomiser | `config/exomiser_profiles/` | `q100_mvp_af005.conf` | quality threshold, allele frequency cutoff, pathogenicity predictors, MVP usage |
+| LIRICAL | `config/lirical_profiles/` | `af001.conf` | allele frequency filtering, pathogenicity thresholds, validation policy |
+| AMELIE | `config/amelie_profiles/` | `gene_list.conf` | gene list, vcf |        
+
+## Quick start
+
+- Run benchmark
+
+Execute all predefined Exomiser, LIRICAL and AMELIE configurations:
+
+```
+bash scripts/run_benchmark.sh
+```
+
+This command iterates over all samples contained in `$SAMPLES_DIR` and generates for every configured profile combination:
+
+- Exomiser results
+- LIRICAL results
+- AMELIE results
+- Exomiser–LIRICAL integration results
+
+- Run a custom Exomiser + LIRICAL analysis
+
+```
+bash scripts/run_analysis.sh \
+    --samples samples.txt \
+    --exomiser q200_af005 \
+    --lirical af005
+```
+- Run a custom Exomiser + LIRICAL + AMELIE analysis
+
+```
+bash scripts/run_analysis.sh \
+    --samples samples.txt \
+    --exomiser q200_af005 \
+    --lirical af005 \
+    --amelie gene_list
+```
+ 
 ## Example Outputs
 
 The `examples/` directory contains fully synthetic outputs illustrating the expected structure of Exomiser, LIRICAL, and AMELIE results. These files allow users to test the workflow without requiring clinical datasets.
