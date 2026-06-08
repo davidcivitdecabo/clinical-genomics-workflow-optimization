@@ -165,7 +165,7 @@ clinical-genomics-workflow-optimization/
 |----------|-------------|
 | `config/` | Configuration files and example paths required to run the workflow. |
 | `docs/` | Technical documentation describing workflow design, clinical context, benchmarking methodology, and analytical modules. |
-| `examples/` | Example anonymized outputs illustrating expected tool formats. |
+| `examples/` | Example anonymized input files to execute the variant prioritization workflows included in this repository. |
 | `figures/` | Workflow diagrams and visual summaries of analytical strategies. |
 | `results/` | Output directories containing benchmarking results and comparative analyses (no real patient data). |
 | `scripts/` | Modular scripts implementing SV detection, mtDNA analysis, variant prioritization, and custom integration/filtering logic. |
@@ -186,16 +186,16 @@ This repository was designed as a modular benchmarking and workflow evaluation f
     * Python 3
     * Linux environment recommended
 
-- Input data requirements in the folder for each sample to be analyzed:
+- Included Example Files per Sample
 
-| File | Description |
-|----------|-------------|
-`HPO_terms.txt` | Patient HPO terms, 1 term per line | 
-`(sample name).vcf` | Variants to analyze by Amelie in vcf format (hg19) |
-`(sample name)_filtered_sorted_hg38.vcf` | Variants to analyze by Exomiser and LIRICAL in vcf format |
-`(sample name)_gnomad_values_hg38.txt` | Gnomad values ​​of each variant of the `(sample name)_filtered_sorted_hg38.vcf` file |
-`gene_list.txt` | List of genes in which a variant of the sample has been found |
-`gene_list_filtered.txt` | `gene_list.txt` filtered by AF (>=0.1 Homozygous and >=0.05 Heterozygous variants) |
+| File                                     | Description                                                                                                       |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `HPO_terms.txt`                          | Human Phenotype Ontology (HPO) terms associated with the sample, one term per line                                |
+| `(sample name).vcf`                      | Input VCF used by AMELIE VCF mode (`amelie_vcf.sh`) using hg19 coordinates                                        |
+| `(sample name)_filtered_sorted_hg38.vcf` | Input VCF used by Exomiser and LIRICAL analyses (hg38 coordinates)                                                |
+| `(sample name)_gnomad_values_hg38.txt`   | gnomAD allele frequency annotations corresponding to variants present in `(sample name)_filtered_sorted_hg38.vcf` |
+| `gene_list.txt`                          | List of genes containing variants identified in the sample                                                        |
+| `gene_list_filtered.txt`                 | Filtered version of `gene_list.txt` used by selected AMELIE configurations                                        |
 
 Clone the repository:
 
