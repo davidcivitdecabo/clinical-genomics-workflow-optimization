@@ -144,18 +144,20 @@ clinical-genomics-workflow-optimization/
 │   ├── integration/
 │   └── lirical/
 │
-└── scripts/
-    ├── amelie.sh
-    ├── amelie_gene_api.py
-    ├── amelie_vcf.sh
-    ├── amelie_vcf_api.py
-    ├── exomiser.sh
-    ├── manta.sh
-    ├── lumpy.sh
-    ├── integration.sh
-    ├── lirical.sh
-    ├── run_analysis.sh
-    └── run_benchmark.sh
+├── scripts/
+│   ├── amelie.sh
+│   ├── amelie_gene_api.py
+│   ├── amelie_vcf.sh
+│   ├── amelie_vcf_api.py
+│   ├── exomiser.sh
+│   ├── manta.sh
+│   ├── lumpy.sh
+│   ├── integration.sh
+│   ├── lirical.sh
+│   ├── run_analysis.sh
+│   └── run_benchmark.sh
+└── templates/
+    └── analysis-exome.yml
 ```
 ### Directory Description
 
@@ -167,6 +169,7 @@ clinical-genomics-workflow-optimization/
 | `figures/` | Workflow diagrams and visual summaries of analytical strategies. |
 | `results/` | Output directories containing benchmarking results and comparative analyses (no real patient data). |
 | `scripts/` | Modular scripts implementing SV detection, mtDNA analysis, variant prioritization, and custom integration/filtering logic. |
+| `templates/` | Exomiser configuration templates. |
 
 The repository structure was designed to facilitate workflow readability, modular benchmarking, and future extensibility of the analytical framework.
 
