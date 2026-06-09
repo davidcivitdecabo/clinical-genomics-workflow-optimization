@@ -1,0 +1,5 @@
+##fileformat=VCFv4.2
+#CHROM  POS      ID  REF ALT QUAL FILTER INFO FORMAT SAMPLE_002
+18      52928752 .   G   A   450  PASS   .    GT     0/1
+11      47352910 .   C   T   300  PASS   .    GT     0/1
+1       12345678 .   A   G   100  PASS   .    GT     0/1
