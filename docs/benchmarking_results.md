@@ -12,19 +12,23 @@ The study compared multiple configurations of Exomiser, LIRICAL, and AMELIE, as 
 
 ## Best Performing Configurations
 
-| Tool            | Configuration               | Top-1 (%)                 | Top-10 (%) | Ranked Variants (%) |
-| --------------- | --------------------------- | ---------------------- | ------ | --------------- |
-| Exomiser        | Quality ≥200, AF ≤0.05      | 56.03%                    | 81.90%    | 95.26%             |
-| Exomiser        | Quality ≥200, MVP, AF ≤0.05 | 55.17%                    | 82.33%    | 95.26%             |
-| LIRICAL         | AF ≤0.05                    | 27.16%                     | 68.10%    | 91.81%             |
-| AMELIE          | AF-filtered gene list       | 5.17%                     | 18.53%     | 89.66%             |
-| Combined Filter | Exomiser + LIRICAL          | - | -      | 85.78%             |
+The configurations shown below correspond to the profile files available in `config/exomiser_profiles/` and `config/lirical_profiles/`.
+
+| Tool            | Profile | Description               | Top-1 (%)                 | Top-10 (%) | Ranked Variants (%) |
+| --------------- | --------------- | --------------------------- | ---------------------- | ------ | --------------- |
+| Exomiser        | q200_af005 | Quality ≥200, AF ≤0.05      | 56.03%                    | 81.90%    | 95.26%             |
+| Exomiser        | q200_mvp_af005 | Quality ≥200, MVP, AF ≤0.05 | 55.17%                    | 82.33%    | 95.26%             |
+| LIRICAL         | af005 | AF ≤0.05                    | 27.16%                     | 68.10%    | 91.81%             |
+| AMELIE          | gene_list_filtered | AF-filtered gene list       | 5.17%                     | 18.53%     | 89.66%             |
+| Combined Strategy | `integration.sh` | Exomiser + LIRICAL          | - | -      | 85.78%             |
+
+
 
 ---
 
 ## Comparative Performance
 
-![Prioritization Benchmarking](../results/figures/prioritization_comparison.png)
+![Prioritization Benchmarking](../figures/prioritization_comparison.png)
 
 The comparison demonstrates substantial differences in prioritization behavior across tools.
 
@@ -38,7 +42,7 @@ AMELIE exhibited limited ranking performance when using gene lists but generated
 
 ## Ranking Consistency
 
-![Ranking Heatmap](../results/figures/ranking_heatmap.png)
+![Ranking Heatmap](../figures/ranking_heatmap.png)
 
 The heatmap summarizes ranking positions obtained across patients and prioritization configurations.
 
