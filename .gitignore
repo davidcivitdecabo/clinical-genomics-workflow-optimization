@@ -1,128 +1,27 @@
-# ==========================
-# Operating System
-# ==========================
+# Local configuration
+config/system.conf
 
-.DS_Store
-Thumbs.db
+# Workflow outputs
+results/exomiser/
+results/lirical/
+results/amelie/
+results/integration/
+results/benchmark/
+results/analysis/
 
-# ==========================
-# Editors
-# ==========================
+# Allow synthetic example VCFs
+!examples/**/*.vcf
 
-.vscode/
-.idea/
+# Python caches
+.pytest_cache/
+.mypy_cache/
 
-# ==========================
-# Python
-# ==========================
+# Reference data
+reference/
 
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
+# Environment helpers
+.envrc
+.direnv/
 
-venv/
-env/
-.venv/
-
-# ==========================
-# Conda
-# ==========================
-
-conda-env/
-.env
-
-# ==========================
-# Logs
-# ==========================
-
-*.log
-logs/
-
-# ==========================
-# Temporary files
-# ==========================
-
-tmp/
-temp/
-*.tmp
-
-# ==========================
-# Genomics data
-# ==========================
-
-*.bam
-*.bam.bai
-*.sam
-*.cram
-*.crai
-
-*.vcf
-*.vcf.gz
-*.vcf.gz.tbi
-
-*.gvcf
-*.gvcf.gz
-
-*.bed
-*.bed.gz
-
-# ==========================
-# FASTQ
-# ==========================
-
-*.fastq
-*.fastq.gz
-*.fq
-*.fq.gz
-
-# ==========================
-# Reference genomes
-# ==========================
-
-references/
-genomes/
-
-*.fa
-*.fasta
-*.fna
-
-*.fa.gz
-*.fasta.gz
-
-*.dict
-*.fai
-
-# ==========================
-# Exomiser
-# ==========================
-
-exomiser-results/
-exomiser-data/
-
-# ==========================
-# LIRICAL
-# ==========================
-
-lirical-results/
-
-# ==========================
-# Docker
-# ==========================
-
-*.tar
-
-# ==========================
-# Results generated locally
-# ==========================
-
-results/tmp/
-results/intermediate/
-
-# ==========================
-# Confidential data
-# ==========================
-
-clinical_data/
-patient_data/
-private_data/
+# Jupyter
+.ipynb_checkpoints/
