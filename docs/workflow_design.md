@@ -37,11 +37,17 @@ As with the SV module, no benchmarking using real clinical datasets was performe
 
 Variant prioritization is one of the most critical and time-consuming stages of rare disease genomic diagnostics, requiring the integration of phenotypic and genomic evidence to identify clinically relevant candidate variants.
 
-This module evaluates three complementary prioritization approaches:
+The variant prioritization module is implemented through a set of modular Bash scripts that automate three complementary prioritization approaches and result integration workflows:
 
 - **Exomiser** — combines variant pathogenicity predictions with phenotype similarity analysis using Human Phenotype Ontology (HPO) annotations.
 - **LIRICAL** — applies a likelihood-ratio framework to rank candidate diagnoses and associated variants based on phenotype-genotype evidence.
-- **AMELIE** — uses automated literature mining to identify gene-disease associations relevant to the patient's phenotype.
+- **AMELIE** — uses automated literature mining to identify phenotype-relevant gene-disease associations. The workflow supports both gene-list prioritization and an experimental VCF-based mode.
+
+The main execution scripts are:
+
+- `run_analysis.sh` — execution of selected prioritization profiles on user-defined samples.
+- `run_benchmark.sh` — systematic benchmarking of all predefined prioritization profiles.
+- `integration.sh` — integration and filtering of Exomiser and LIRICAL results.
 
 Different filtering strategies and parameter configurations were explored to identify prioritization approaches capable of reducing the number of variants requiring manual review while maintaining recovery of known pathogenic variants.
 
@@ -51,10 +57,11 @@ Custom Bash scripts were developed to facilitate systematic comparison of priori
 
 These scripts support:
 
-- Integration of candidate rankings from multiple prioritization tools
+- Integration of Exomiser and LIRICAL candidate rankings
+- Generation of merged prioritization tables
+- Construction of reduced candidate lists for manual review
 - Application of configurable filtering criteria
-- Comparative benchmarking across prioritization strategies
-- Evaluation of ranking consistency and reproducibility
+- Generation standardized outputs that facilitate downstream benchmarking and comparative evaluation of prioritization strategies.
 
 The primary objective was to determine which configurations most effectively prioritized previously validated disease-causing variants while minimizing the risk of excluding clinically relevant candidates during filtering.
 
@@ -83,3 +90,6 @@ This architecture enables:
 - Clear separation between workflow design, benchmarking, and documentation
 
 The resulting framework serves both as a workflow optimization proposal and as a practical benchmarking environment for evaluating analytical approaches relevant to rare disease genomics.
+
+This modular architecture also allows independent execution of benchmarking (`run_benchmark.sh`) and targeted analysis (`run_analysis.sh`) workflows using the same configuration framework.
+
